@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Gestion des Employés</title>
+    </head>
+    <body>
+        <h2>Liste des employés</h2>
+        
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(employees)}">
+                    <td colspan="4">Aucun employé en base de données</td>
+                </tr>
+                <tr th:each="employee: ${employees}">
+                    <td><span th:text="${employee.firstName}">Prénom</span></td>
+                    <td><span th:text="${employee.lastName}">Nom</span></td>
+                    <td><span th:text="${employee.mail}">Email</span></td>
+                    <td>
+                        <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Ajouter un nouvel employé</h3>
+        <form method="post" th:action="@{/saveEmployee}" th:object="${employee}">
+            <p>Prénom : <input type="text" name="firstName" required></p>
+            <p>Nom : <input type="text" name="lastName" required></p>
+            <p>Email : <input type="email" name="mail" required></p>
+            <p>Mot de passe : <input type="password" name="password" required></p>
+            <button type="submit">Créer</button>
+        </form>
+    </body>
+</html>
